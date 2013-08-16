@@ -955,6 +955,8 @@ extern int prefer_neon_for_64bits;
 
 #define FIRST_IWMMXT_REGNUM	(LAST_HI_VFP_REGNUM + 1)
 #define LAST_IWMMXT_REGNUM	(FIRST_IWMMXT_REGNUM + 15)
+
+/* Need to sync with WCGR in iwmmxt.md.  */
 #define FIRST_IWMMXT_GR_REGNUM	(LAST_IWMMXT_REGNUM + 1)
 #define LAST_IWMMXT_GR_REGNUM	(FIRST_IWMMXT_GR_REGNUM + 3)
 
@@ -1050,7 +1052,7 @@ extern int prefer_neon_for_64bits;
 /* Modes valid for Neon D registers.  */
 #define VALID_NEON_DREG_MODE(MODE) \
   ((MODE) == V2SImode || (MODE) == V4HImode || (MODE) == V8QImode \
-   || (MODE) == V4HFmode || (MODE) == V2SFmode || (MODE) == DImode)
+   || (MODE) == V2SFmode || (MODE) == DImode)
 
 /* Modes valid for Neon Q registers.  */
 #define VALID_NEON_QREG_MODE(MODE) \
@@ -1140,7 +1142,6 @@ enum reg_class
   STACK_REG,
   BASE_REGS,
   HI_REGS,
-  CALLER_SAVE_REGS,
   GENERAL_REGS,
   CORE_REGS,
   VFP_D0_D7_REGS,
@@ -1167,7 +1168,6 @@ enum reg_class
   "STACK_REG",		\
   "BASE_REGS",		\
   "HI_REGS",		\
-  "CALLER_SAVE_REGS",	\
   "GENERAL_REGS",	\
   "CORE_REGS",		\
   "VFP_D0_D7_REGS",	\
@@ -1193,7 +1193,6 @@ enum reg_class
   { 0x00002000, 0x00000000, 0x00000000, 0x00000000 }, /* STACK_REG */	\
   { 0x000020FF, 0x00000000, 0x00000000, 0x00000000 }, /* BASE_REGS */	\
   { 0x00005F00, 0x00000000, 0x00000000, 0x00000000 }, /* HI_REGS */	\
-  { 0x0000100F, 0x00000000, 0x00000000, 0x00000000 }, /* CALLER_SAVE_REGS */ \
   { 0x00005FFF, 0x00000000, 0x00000000, 0x00000000 }, /* GENERAL_REGS */ \
   { 0x00007FFF, 0x00000000, 0x00000000, 0x00000000 }, /* CORE_REGS */	\
   { 0xFFFF0000, 0x00000000, 0x00000000, 0x00000000 }, /* VFP_D0_D7_REGS  */ \
@@ -1206,7 +1205,7 @@ enum reg_class
   { 0x00000000, 0x00000000, 0x00000000, 0x00000020 }, /* VFPCC_REG */	\
   { 0x00000000, 0x00000000, 0x00000000, 0x00000040 }, /* SFP_REG */	\
   { 0x00000000, 0x00000000, 0x00000000, 0x00000080 }, /* AFP_REG */	\
-  { 0xFFFF7FFF, 0xFFFFFFFF, 0xFFFFFFFF, 0x00000000 }  /* ALL_REGS */	\
+  { 0xFFFF7FFF, 0xFFFFFFFF, 0xFFFFFFFF, 0x0000000F }  /* ALL_REGS */	\
 }
 
 /* Any of the VFP register classes.  */
@@ -1652,7 +1651,7 @@ typedef struct
    frame.  */
 #define EXIT_IGNORE_STACK 1
 
-#define EPILOGUE_USES(REGNO) (epilogue_completed && (REGNO) == LR_REGNUM)
+#define EPILOGUE_USES(REGNO) ((REGNO) == LR_REGNUM)
 
 /* Determine if the epilogue should be output as RTL.
    You should override this if you define FUNCTION_EXTRA_EPILOGUE.  */
@@ -1957,10 +1956,11 @@ enum arm_auto_incmodes
 
 #define CASE_VECTOR_PC_RELATIVE (TARGET_THUMB2				\
 				 || (TARGET_THUMB1			\
+				     && !inline_thumb1_jump_table	\
 				     && (optimize_size || flag_pic)))
 
 #define CASE_VECTOR_SHORTEN_MODE(min, max, body)			\
-  (TARGET_THUMB1							\
+  (TARGET_THUMB1 && !inline_thumb1_jump_table				\
    ? (min >= 0 && max < 512						\
       ? (ADDR_DIFF_VEC_FLAGS (body).offset_unsigned = 1, QImode)	\
       : min >= -256 && max < 256					\

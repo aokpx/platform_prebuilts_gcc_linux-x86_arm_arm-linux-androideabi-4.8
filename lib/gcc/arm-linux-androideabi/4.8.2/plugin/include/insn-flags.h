@@ -24,8 +24,6 @@
 #define HAVE_unaligned_loadhiu (unaligned_access && TARGET_32BIT)
 #define HAVE_unaligned_storesi (unaligned_access && TARGET_32BIT)
 #define HAVE_unaligned_storehi (unaligned_access && TARGET_32BIT)
-#define HAVE_unaligned_loaddi (unaligned_access && TARGET_32BIT)
-#define HAVE_unaligned_storedi (unaligned_access && TARGET_32BIT)
 #define HAVE_extzv_t2 (arm_arch_thumb2)
 #define HAVE_divsi3 (TARGET_IDIV)
 #define HAVE_udivsi3 (TARGET_IDIV)
@@ -834,8 +832,6 @@
 #define HAVE_neon_vcvtv4sf (TARGET_NEON)
 #define HAVE_neon_vcvtv2si (TARGET_NEON)
 #define HAVE_neon_vcvtv4si (TARGET_NEON)
-#define HAVE_neon_vcvtv4sfv4hf (TARGET_NEON && TARGET_FP16)
-#define HAVE_neon_vcvtv4hfv4sf (TARGET_NEON && TARGET_FP16)
 #define HAVE_neon_vcvt_nv2sf (TARGET_NEON)
 #define HAVE_neon_vcvt_nv4sf (TARGET_NEON)
 #define HAVE_neon_vcvt_nv2si (TARGET_NEON)
@@ -1559,15 +1555,11 @@
 #define HAVE_return ((TARGET_ARM || (TARGET_THUMB2 \
                    && ARM_FUNC_TYPE (arm_current_func_type ()) == ARM_FT_NORMAL \
                    && !IS_STACKALIGN (arm_current_func_type ()))) \
-     && USE_RETURN_INSN (FALSE))
-#define HAVE_simple_return ((TARGET_ARM || (TARGET_THUMB2 \
-                   && ARM_FUNC_TYPE (arm_current_func_type ()) == ARM_FT_NORMAL \
-                   && !IS_STACKALIGN (arm_current_func_type ()))) \
-     && use_simple_return_p ())
+    && USE_RETURN_INSN (FALSE))
 #define HAVE_return_addr_mask (TARGET_ARM)
 #define HAVE_untyped_call 1
 #define HAVE_untyped_return 1
-#define HAVE_casesi (TARGET_32BIT || optimize_size || flag_pic)
+#define HAVE_casesi (TARGET_32BIT || ((optimize_size || flag_pic) && !inline_thumb1_jump_table))
 #define HAVE_thumb1_casesi_internal_pic (TARGET_THUMB1)
 #define HAVE_indirect_jump 1
 #define HAVE_prologue 1
@@ -1784,16 +1776,16 @@
 #define HAVE_movoi (TARGET_NEON)
 #define HAVE_movci (TARGET_NEON)
 #define HAVE_movxi (TARGET_NEON)
-#define HAVE_movmisalignv8qi (TARGET_NEON && !BYTES_BIG_ENDIAN)
-#define HAVE_movmisalignv16qi (TARGET_NEON && !BYTES_BIG_ENDIAN)
-#define HAVE_movmisalignv4hi (TARGET_NEON && !BYTES_BIG_ENDIAN)
-#define HAVE_movmisalignv8hi (TARGET_NEON && !BYTES_BIG_ENDIAN)
-#define HAVE_movmisalignv2si (TARGET_NEON && !BYTES_BIG_ENDIAN)
-#define HAVE_movmisalignv4si (TARGET_NEON && !BYTES_BIG_ENDIAN)
-#define HAVE_movmisalignv2sf (TARGET_NEON && !BYTES_BIG_ENDIAN)
-#define HAVE_movmisalignv4sf (TARGET_NEON && !BYTES_BIG_ENDIAN)
-#define HAVE_movmisaligndi (TARGET_NEON && !BYTES_BIG_ENDIAN)
-#define HAVE_movmisalignv2di (TARGET_NEON && !BYTES_BIG_ENDIAN)
+#define HAVE_movmisalignv8qi (TARGET_NEON && !BYTES_BIG_ENDIAN && unaligned_access)
+#define HAVE_movmisalignv16qi (TARGET_NEON && !BYTES_BIG_ENDIAN && unaligned_access)
+#define HAVE_movmisalignv4hi (TARGET_NEON && !BYTES_BIG_ENDIAN && unaligned_access)
+#define HAVE_movmisalignv8hi (TARGET_NEON && !BYTES_BIG_ENDIAN && unaligned_access)
+#define HAVE_movmisalignv2si (TARGET_NEON && !BYTES_BIG_ENDIAN && unaligned_access)
+#define HAVE_movmisalignv4si (TARGET_NEON && !BYTES_BIG_ENDIAN && unaligned_access)
+#define HAVE_movmisalignv2sf (TARGET_NEON && !BYTES_BIG_ENDIAN && unaligned_access)
+#define HAVE_movmisalignv4sf (TARGET_NEON && !BYTES_BIG_ENDIAN && unaligned_access)
+#define HAVE_movmisaligndi (TARGET_NEON && !BYTES_BIG_ENDIAN && unaligned_access)
+#define HAVE_movmisalignv2di (TARGET_NEON && !BYTES_BIG_ENDIAN && unaligned_access)
 #define HAVE_vec_setv8qi (TARGET_NEON)
 #define HAVE_vec_setv16qi (TARGET_NEON)
 #define HAVE_vec_setv4hi (TARGET_NEON)
@@ -2436,8 +2428,6 @@ extern rtx        gen_unaligned_loadhis                 (rtx, rtx);
 extern rtx        gen_unaligned_loadhiu                 (rtx, rtx);
 extern rtx        gen_unaligned_storesi                 (rtx, rtx);
 extern rtx        gen_unaligned_storehi                 (rtx, rtx);
-extern rtx        gen_unaligned_loaddi                  (rtx, rtx);
-extern rtx        gen_unaligned_storedi                 (rtx, rtx);
 extern rtx        gen_extzv_t2                          (rtx, rtx, rtx, rtx);
 extern rtx        gen_divsi3                            (rtx, rtx, rtx);
 extern rtx        gen_udivsi3                           (rtx, rtx, rtx);
@@ -3248,8 +3238,6 @@ extern rtx        gen_neon_vcvtv2sf                     (rtx, rtx, rtx);
 extern rtx        gen_neon_vcvtv4sf                     (rtx, rtx, rtx);
 extern rtx        gen_neon_vcvtv2si                     (rtx, rtx, rtx);
 extern rtx        gen_neon_vcvtv4si                     (rtx, rtx, rtx);
-extern rtx        gen_neon_vcvtv4sfv4hf                 (rtx, rtx);
-extern rtx        gen_neon_vcvtv4hfv4sf                 (rtx, rtx);
 extern rtx        gen_neon_vcvt_nv2sf                   (rtx, rtx, rtx, rtx);
 extern rtx        gen_neon_vcvt_nv4sf                   (rtx, rtx, rtx, rtx);
 extern rtx        gen_neon_vcvt_nv2si                   (rtx, rtx, rtx, rtx);
@@ -3954,7 +3942,6 @@ extern rtx        gen_sibcall                           (rtx, rtx, rtx);
 #define GEN_SIBCALL_VALUE(A, B, C, D, E) gen_sibcall_value ((A), (B), (C), (D))
 extern rtx        gen_sibcall_value                     (rtx, rtx, rtx, rtx);
 extern rtx        gen_return                            (void);
-extern rtx        gen_simple_return                     (void);
 extern rtx        gen_return_addr_mask                  (rtx);
 extern rtx        gen_untyped_call                      (rtx, rtx, rtx);
 extern rtx        gen_untyped_return                    (rtx, rtx);

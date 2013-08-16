@@ -500,7 +500,7 @@
 
 /* Define if your assembler and linker support thread-local storage. */
 #ifndef USED_FOR_TARGET
-#define HAVE_AS_TLS 1
+/* #undef HAVE_AS_TLS */
 #endif
 
 
@@ -1229,7 +1229,7 @@
 #endif
 
 
-/* Define if your AIX linker supports a large TOC. */
+/* Define if your PowerPC64 linker supports a large TOC. */
 #ifndef USED_FOR_TARGET
 /* #undef HAVE_LD_LARGE_TOC */
 #endif
@@ -1603,7 +1603,7 @@
 
 /* Define if cloog is in use. */
 #ifndef USED_FOR_TARGET
-/* #undef HAVE_cloog */
+#define HAVE_cloog 1
 #endif
 
 
@@ -1731,7 +1731,7 @@
 
 /* The size of `long', as computed by sizeof. */
 #ifndef USED_FOR_TARGET
-#define SIZEOF_LONG 4
+#define SIZEOF_LONG 8
 #endif
 
 
@@ -1749,7 +1749,7 @@
 
 /* The size of `void *', as computed by sizeof. */
 #ifndef USED_FOR_TARGET
-#define SIZEOF_VOID_P 4
+#define SIZEOF_VOID_P 8
 #endif
 
 
@@ -1782,7 +1782,7 @@
 
 /* Define if your target C library provides stack protector support */
 #ifndef USED_FOR_TARGET
-/* #undef TARGET_LIBC_PROVIDES_SSP */
+#define TARGET_LIBC_PROVIDES_SSP 1
 #endif
 
 
@@ -1809,6 +1809,12 @@
    DLL exports wrappers to support libstdc++ function replacement. */
 #ifndef USED_FOR_TARGET
 /* #undef USE_CYGWIN_LIBSTDCXX_WRAPPERS */
+#endif
+
+
+/* Define if your system supports PT_GNU_EH_FRAME for static executable. */
+#ifndef USED_FOR_TARGET
+/* #undef USE_EH_FRAME_HDR_FOR_STATIC */
 #endif
 
 
@@ -1870,7 +1876,7 @@
 
 /* Number of bits in a file offset, on hosts where this is settable. */
 #ifndef USED_FOR_TARGET
-#define _FILE_OFFSET_BITS 64
+/* #undef _FILE_OFFSET_BITS */
 #endif
 
 
