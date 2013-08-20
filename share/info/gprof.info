@@ -1,5 +1,4 @@
-This is gprof.info, produced by makeinfo version 4.13 from
-../.././../binutils/binutils-upstream/gprof/gprof.texi.
+This is gprof.info, produced by makeinfo version 4.8 from gprof.texi.
 
 INFO-DIR-SECTION Software development
 START-INFO-DIR-ENTRY
@@ -29,7 +28,7 @@ to determine which parts of a program are taking most of the execution
 time.  We assume that you know how to write, compile, and execute
 programs.  GNU `gprof' was written by Jay Fenlason.
 
-   This manual is for `gprof' (axDev GCC 2013.08) version 2.23.52.
+   This manual is for `gprof' (GNU Binutils) version 2.23.1.
 
    This document is distributed under the terms of the GNU Free
 Documentation License version 1.3.  A copy of the license is included
@@ -2441,35 +2440,35 @@ permit their use in free software.
 
 
 Tag Table:
-Node: Top822
-Node: Introduction2153
-Node: Compiling4645
-Node: Executing8701
-Node: Invoking11489
-Node: Output Options12904
-Node: Analysis Options19993
-Node: Miscellaneous Options23691
-Node: Deprecated Options24946
-Node: Symspecs27015
-Node: Output28841
-Node: Flat Profile29881
-Node: Call Graph34834
-Node: Primary38066
-Node: Callers40654
-Node: Subroutines42771
-Node: Cycles44612
-Node: Line-by-line51389
-Node: Annotated Source55462
-Node: Inaccuracy58461
-Node: Sampling Error58719
-Node: Assumptions61623
-Node: How do I?63093
-Node: Incompatibilities64647
-Node: Details66141
-Node: Implementation66534
-Node: File Format72431
-Node: Internals76721
-Node: Debugging85216
-Node: GNU Free Documentation License86817
+Node: Top777
+Node: Introduction2102
+Node: Compiling4594
+Node: Executing8650
+Node: Invoking11438
+Node: Output Options12853
+Node: Analysis Options19942
+Node: Miscellaneous Options23640
+Node: Deprecated Options24895
+Node: Symspecs26964
+Node: Output28790
+Node: Flat Profile29830
+Node: Call Graph34783
+Node: Primary38015
+Node: Callers40603
+Node: Subroutines42720
+Node: Cycles44561
+Node: Line-by-line51338
+Node: Annotated Source55411
+Node: Inaccuracy58410
+Node: Sampling Error58668
+Node: Assumptions61572
+Node: How do I?63042
+Node: Incompatibilities64596
+Node: Details66090
+Node: Implementation66483
+Node: File Format72380
+Node: Internals76670
+Node: Debugging85165
+Node: GNU Free Documentation License86766
 
 End Tag Table
