@@ -22,7 +22,7 @@ developing GNU and promoting software freedom."
    This file documents the GNU debugger GDB.
 
    This is the Tenth Edition, of `Debugging with GDB: the GNU
-Source-Level Debugger' for GDB (axDev GCC 2013.08-2) Version 7.6.
+Source-Level Debugger' for GDB (axDev GCC 2013.08-3) Version 7.6.
 
    Copyright (C) 1988-2013 Free Software Foundation, Inc.
 
@@ -45,7 +45,7 @@ Debugging with GDB
 
 This file describes GDB, the GNU symbolic debugger.
 
-   This is the Tenth Edition, for GDB (axDev GCC 2013.08-2) Version
+   This is the Tenth Edition, for GDB (axDev GCC 2013.08-3) Version
 7.6.
 
    Copyright (C) 1988-2013 Free Software Foundation, Inc.
